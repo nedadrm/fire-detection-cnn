@@ -29,7 +29,7 @@ def load_images(egitim_dataset) :
             except Exception as e:
                print(f"resim okunamadı{os.path.join(folder, filename)} : {e}")  #neden sonra e var
 
-        return np.array (images), np.array (labels) #resimleri degere donusturdu
+    return np.array (images), np.array (labels) #resimleri degere donusturdu
     
 images, labels = load_images(egitim_dataset)
 print(len(images))
@@ -47,7 +47,7 @@ print(X_test.shape)
 print(y_test.shape)
 
 model = Sequential()
-model.add(Conv2D (32, kernel_size= (3,3), activation="relu",  input_shape=(48,48,1)))#resimlerden gerekli özelliklerin çıakrılması (verilein bölünerek incelenmesi)
+model.add(Conv2D (32, kernel_size= (3,3), activation="relu",  input_shape=(48,48,3)))#resimlerden gerekli özelliklerin çıakrılması (verilein bölünerek incelenmesi)
 model.add(Conv2D (32, kernel_size= (3,3), activation="relu"))
 model.add(MaxPooling2D (pool_size= (2,2)))  #boyut küçültme
 model.add(Dropout (0.25)) # modelin öğrenirken genelleme yapmaması için bazı işlevleri engeller
@@ -57,10 +57,10 @@ model.add(Dropout (0.5))
 model.add(Dense (2, activation= "softmax")) #yangın var mı yok mu
 
 
-model.compile(loss=('categorical_crossentr'), optimizer='adam', metrics = ['accuracy']) #optimizer hatayı minimslize eder
+model.compile(loss=('categorical_crossentropy'), optimizer='adam', metrics = ['accuracy']) #optimizer hatayı minimslize eder
 #compile modelin nasıl ogrencegini belirtir
 
-model.fit(X_train,  y_train, batch_size=64 ,epochs=10, verbose=1, validation_data=(X_test , y_test))
+model.fit(X_train,  Y_train, batch_size=64 ,epochs=10, verbose=1, validation_data=(X_test , Y_test))
 
 """fit ise verilerle eigitlme asamasi
 epochs= veriler kç kez modelden gececek 
